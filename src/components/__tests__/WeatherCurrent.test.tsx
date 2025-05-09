@@ -7,4 +7,8 @@ describe('Weather Current', () => {
     const wrapper = render(<WeatherCurrent />);
     wrapper.getByTestId('weather-current');
   });
+
+  test('Should navigate to weather screen with location', () => {
+    throw new Error('Not implemented');
+  });
 });
