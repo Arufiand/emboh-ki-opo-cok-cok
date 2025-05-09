@@ -3,6 +3,8 @@ import {StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../constants';
 import moment from 'moment';
+import WeatherCurrent from '../components/WeatherCurrent';
+import WeatherCoordinates from '../components/WeatherCoordinates';
 
 function displayDate(date: Date) {
   const today = date.getDate();
@@ -34,6 +36,8 @@ function HomeScreen() {
         <Text style={styles.date}>{displayDate(moment().toDate())}</Text>
         <Text style={styles.day}>{moment().format('dddd')}</Text>
       </View>
+      <WeatherCurrent />
+      <WeatherCoordinates />
     </LinearGradient>
   );
 }
