@@ -5,26 +5,7 @@ import {Colors} from '../constants';
 import moment from 'moment';
 import WeatherCurrent from '../components/WeatherCurrent';
 import WeatherCoordinates from '../components/WeatherCoordinates';
-
-function displayDate(date: Date) {
-  const today = date.getDate();
-  const month = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ][date.getMonth()];
-
-  return `${month} ${today < 10 && '0'}${today}, ${date.getFullYear()}`;
-}
+import {displayDate} from '../general.function';
 
 function HomeScreen() {
   return (
