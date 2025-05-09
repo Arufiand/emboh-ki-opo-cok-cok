@@ -41,6 +41,11 @@ describe('Home Screen', () => {
     });
   });
 
+  test('Should contain divider', () => {
+    const wrapper = render(<HomeScreen />);
+    wrapper.getByTestId('home-screen-divider');
+  });
+
   test('Should contain a section to get current weather', () => {
     (WeatherCurrent as jest.Mock).mockReturnValue(
       <View testID={'mock-weather-current'} />,

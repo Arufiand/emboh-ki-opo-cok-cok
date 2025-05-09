@@ -18,6 +18,9 @@ function HomeScreen() {
         <Text style={styles.day}>{moment().format('dddd')}</Text>
       </View>
       <WeatherCurrent />
+      <Text testID={'home-screen-divider'} style={styles.divider}>
+        Or
+      </Text>
       <WeatherCoordinates />
     </LinearGradient>
   );
@@ -38,6 +41,10 @@ const styles = StyleSheet.create({
   },
   day: {
     color: Colors.WHITE,
+  },
+  divider: {
+    color: Colors.WHITE,
+    textAlign: 'center',
   },
 });
 
