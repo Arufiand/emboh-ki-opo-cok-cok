@@ -5,7 +5,7 @@ import WeatherCurrent from '../components/WeatherCurrent';
 import {View} from 'react-native';
 import WeatherCoordinates from '../components/WeatherCoordinates';
 import moment from 'moment';
-import {displayDate} from '../general.function';
+import {displayDate} from '../utils/helpers';
 
 jest.mock('../components/WeatherCurrent', () =>
   jest.fn().mockReturnValue(null),

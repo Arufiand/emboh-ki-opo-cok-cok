@@ -1,11 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Colors} from '../constants';
+import {Colors} from '../utils/constants';
 import moment from 'moment';
 import WeatherCurrent from '../components/WeatherCurrent';
 import WeatherCoordinates from '../components/WeatherCoordinates';
-import {displayDate} from '../general.function';
+import {displayDate} from '../utils/helpers';
 
 function HomeScreen() {
   return (
