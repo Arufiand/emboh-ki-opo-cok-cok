@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learning/login_form/mixins/validation_mixin.dart';
+import '../../login_form/models/form_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,7 +13,8 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> with ValidationMixin {
   final formKey = GlobalKey<FormState>();
-  
+  final _formData = LoginFormData();
+
   @override
   Widget build(context) {
     return Container(
@@ -36,7 +38,7 @@ class LoginScreenState extends State<LoginScreen> with ValidationMixin {
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(labelText: 'Email', hintText: 'Your Email'),
       validator: validateEmail,
-      onSaved: onEmailSaved,
+      onSaved: _onEmailSaved,
     );
   }
 
@@ -48,20 +50,28 @@ class LoginScreenState extends State<LoginScreen> with ValidationMixin {
         hintText: 'Your Password',
       ),
       validator: validatePassword,
-      onSaved: onPasswordSaved,
+      onSaved: _onPasswordSaved,
     );
   }
 
+  void _handleSubmit() {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState?.save();
+      debugPrint('Email: ${_formData.email}');
+      debugPrint('Password: ${_formData.password}');
+      // Here you can handle the login logic
+    }
+  }
+
   Widget submitButton() {
-    return ElevatedButton(
-      onPressed: () {
-        if (formKey.currentState!.validate()) {
-          formKey.currentState?.save();
-          debugPrint('Email: $email');
-          debugPrint('Password: $password');
-        }
-      },
-      child: Text('Submit'),
-    );
+    return ElevatedButton(onPressed: _handleSubmit, child: Text('Submit'));
+  }
+
+  void _onEmailSaved(String? value) {
+    _formData.email = value;
+  }
+
+  void _onPasswordSaved(String? value) {
+    _formData.password = value;
   }
 }
