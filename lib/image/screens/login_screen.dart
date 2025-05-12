@@ -34,7 +34,7 @@ class LoginScreenState extends State<LoginScreen> {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(labelText: 'Email', hintText: 'Your Email'),
-      validator: (value) {
+      validator: (String? value) {
         if (!value!.contains('@')) {
           return 'Please enter a valid email';
         }
@@ -58,7 +58,7 @@ class LoginScreenState extends State<LoginScreen> {
         labelText: 'Password',
         hintText: 'Your Password',
       ),
-      validator: (value) {
+      validator: (String? value) {
         if (value!.length < 4) {
           return 'Please enter a valid password';
         }
