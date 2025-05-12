@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learning/login_form/mixins/validation_mixin.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -9,12 +10,9 @@ class LoginScreen extends StatefulWidget {
   }
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> with ValidationMixin {
   final formKey = GlobalKey<FormState>();
-
-  String email = '';
-  String password = '';
-
+  
   @override
   Widget build(context) {
     return Container(
@@ -37,20 +35,8 @@ class LoginScreenState extends State<LoginScreen> {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(labelText: 'Email', hintText: 'Your Email'),
-      validator: (String? value) {
-        if (!value!.contains('@')) {
-          return 'Please enter a valid email';
-        }
-        return null;
-
-        // you can write if null like this one
-        // if (value?.contains('@') == false || value == null) {
-        //   return 'Please enter a valid email';
-        // }
-      },
-      onSaved: (String? value) {
-        email = value!;
-      },
+      validator: validateEmail,
+      onSaved: onEmailSaved,
     );
   }
 
@@ -61,15 +47,8 @@ class LoginScreenState extends State<LoginScreen> {
         labelText: 'Password',
         hintText: 'Your Password',
       ),
-      validator: (String? value) {
-        if (value!.length < 4) {
-          return 'Please enter a valid password';
-        }
-        return null;
-      },
-      onSaved: (String? value) {
-        password = value!;
-      },
+      validator: validatePassword,
+      onSaved: onPasswordSaved,
     );
   }
 
@@ -78,9 +57,8 @@ class LoginScreenState extends State<LoginScreen> {
       onPressed: () {
         if (formKey.currentState!.validate()) {
           formKey.currentState?.save();
-          print(
-            'Sending to API with email of $email and password is $password',
-          );
+          debugPrint('Email: $email');
+          debugPrint('Password: $password');
         }
       },
       child: Text('Submit'),
