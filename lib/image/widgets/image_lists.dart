@@ -16,16 +16,20 @@ class ImageLists extends StatelessWidget {
     );
   }
 
-  Widget buildImages(ImageModel image){
+  Widget buildImages(ImageModel image) {
     return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-            color: Colors.black
-        ),
-      ),
+      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
       margin: EdgeInsets.all(20.0),
       padding: EdgeInsets.all(20.0),
-      child: Image.network(image.url),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: 0.8),
+            child: Image.network(image.url),
+          ),
+          Text(image.title),
+        ],
+      ),
     );
   }
 }
