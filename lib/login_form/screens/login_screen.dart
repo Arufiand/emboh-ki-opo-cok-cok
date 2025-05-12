@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learning/login_form/mixins/validation_mixin.dart';
-import '../../login_form/models/form_model.dart';
+import '../models/form_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
