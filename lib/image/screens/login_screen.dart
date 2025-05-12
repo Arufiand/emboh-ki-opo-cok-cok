@@ -45,6 +45,9 @@ class LoginScreenState extends State<LoginScreen> {
         //   return 'Please enter a valid email';
         // }
       },
+      onSaved: (String? value) {
+        print(value);
+      },
     );
   }
 
@@ -61,13 +64,18 @@ class LoginScreenState extends State<LoginScreen> {
         }
         return null;
       },
+      onSaved: (String? value) {
+        print(value);
+      },
     );
   }
 
   Widget submitButton() {
     return ElevatedButton(
       onPressed: () {
-        print(formKey.currentState?.validate());
+        if (formKey.currentState!.validate()) {
+          formKey.currentState?.save();
+        }
       },
       child: Text('Submit'),
     );
