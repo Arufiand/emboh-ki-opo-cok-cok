@@ -3,7 +3,6 @@ import 'package:learning/login_form/mixins/validation_mixin.dart';
 import '../../login_form/models/form_model.dart';
 
 class LoginBlocScreen extends StatelessWidget with ValidationMixin {
-  final formKey = GlobalKey<FormState>();
   final _formData = LoginFormData();
 
   @override
@@ -22,26 +21,22 @@ class LoginBlocScreen extends StatelessWidget with ValidationMixin {
   }
 
   Widget emailField() {
-    return TextFormField(
+    return TextField(
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         labelText: 'email bloc',
         hintText: 'Your Email',
       ),
-      validator: validateEmail,
-      onSaved: _onEmailSaved,
     );
   }
 
   Widget passwordField() {
-    return TextFormField(
+    return TextField(
       obscureText: true,
       decoration: InputDecoration(
         labelText: 'Password',
         hintText: 'Your Password',
       ),
-      validator: validatePassword,
-      onSaved: _onPasswordSaved,
     );
   }
 
