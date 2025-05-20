@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:learning/login_form/mixins/validation_mixin.dart';
 import '../../login_form/models/form_model.dart';
 
-class LoginBlocScreen extends StatelessWidget with ValidationMixin {
+class LoginBlocScreen extends StatelessWidget {
   final _formData = LoginFormData();
 
   @override
@@ -26,6 +25,7 @@ class LoginBlocScreen extends StatelessWidget with ValidationMixin {
       decoration: InputDecoration(
         labelText: 'email bloc',
         hintText: 'Your Email',
+        errorText: 'Wrong Input of Email : must contain @',
       ),
     );
   }
@@ -36,6 +36,8 @@ class LoginBlocScreen extends StatelessWidget with ValidationMixin {
       decoration: InputDecoration(
         labelText: 'Password',
         hintText: 'Your Password',
+        errorText:
+            'Wrong Input of Password : Must contain more than 4 characters',
       ),
     );
   }
