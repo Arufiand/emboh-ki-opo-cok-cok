@@ -57,12 +57,4 @@ class LoginBlocScreen extends StatelessWidget {
   Widget submitButton() {
     return ElevatedButton(onPressed: () => {}, child: Text('Submit'));
   }
-
-  void _onEmailSaved(String? value) {
-    _formData.email = value;
-  }
-
-  void _onPasswordSaved(String? value) {
-    _formData.password = value;
-  }
 }
