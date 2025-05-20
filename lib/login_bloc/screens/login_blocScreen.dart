@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learning/login_bloc/blocs/bloc.dart';
 import '../../login_form/models/form_model.dart';
 
 class LoginBlocScreen extends StatelessWidget {
@@ -20,25 +21,36 @@ class LoginBlocScreen extends StatelessWidget {
   }
 
   Widget emailField() {
-    return TextField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        labelText: 'email bloc',
-        hintText: 'Your Email',
-        errorText: 'Wrong Input of Email : must contain @',
-      ),
+    return StreamBuilder(
+      stream: bloc.email,
+      builder: (context, snapshot) {
+        return TextField(
+          onChanged: bloc.changeEmail,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: 'email bloc',
+            hintText: 'Your Email',
+            errorText: snapshot.error as String?,
+          ),
+        );
+      },
     );
   }
 
   Widget passwordField() {
-    return TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Password',
-        hintText: 'Your Password',
-        errorText:
-            'Wrong Input of Password : Must contain more than 4 characters',
-      ),
+    return StreamBuilder(
+      stream: bloc.password,
+      builder: (context, snapshot) {
+        return TextField(
+          onChanged: bloc.changePassword,
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            hintText: 'Your Password',
+            errorText: snapshot.error as String?,
+          ),
+        );
+      },
     );
   }
 
