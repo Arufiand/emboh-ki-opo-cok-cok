@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:learning/login_bloc/blocs/validators.dart';
 
 class Bloc extends Object with Validators {
-  final _email = StreamController<String>();
-  final _password = StreamController<String>();
+  final _email = StreamController<String>.broadcast();
+  final _password = StreamController<String>.broadcast();
 
   Stream<String> get email => _email.stream.transform(validateEmail);
 
@@ -19,5 +19,3 @@ class Bloc extends Object with Validators {
     _password.close();
   }
 }
-
-final bloc = Bloc();

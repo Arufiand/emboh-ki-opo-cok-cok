@@ -1,26 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:learning/login_bloc/blocs/bloc.dart';
-import '../../login_form/models/form_model.dart';
+import 'package:learning/login_bloc/blocs/provider.dart';
+// import '../../login_form/models/form_model.dart';
 
 class LoginBlocScreen extends StatelessWidget {
-  final _formData = LoginFormData();
+  // final _formData = LoginFormData();
 
   @override
   Widget build(context) {
-    return Container(
-      margin: EdgeInsets.all(20.0),
-      child: Column(
-        children: [
-          emailField(),
-          passwordField(),
-          Container(margin: EdgeInsets.only(top: 25.0)),
-          submitButton(),
-        ],
+    final bloc = Provider.of(context);
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.all(20.0),
+          constraints: BoxConstraints(maxWidth: 400),
+          // Optional: limit max width
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // Make children stretch horizontally
+            children: [
+              emailField(bloc),
+              SizedBox(height: 16), // Add consistent spacing
+              passwordField(bloc),
+              SizedBox(height: 25),
+              submitButton(),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  Widget emailField() {
+  Widget emailField(Bloc bloc) {
     return StreamBuilder(
       stream: bloc.email,
       builder: (context, snapshot) {
@@ -28,7 +40,7 @@ class LoginBlocScreen extends StatelessWidget {
           onChanged: bloc.changeEmail,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            labelText: 'email bloc',
+            labelText: 'email blocss',
             hintText: 'Your Email',
             errorText: snapshot.error as String?,
           ),
@@ -37,7 +49,7 @@ class LoginBlocScreen extends StatelessWidget {
     );
   }
 
-  Widget passwordField() {
+  Widget passwordField(Bloc bloc) {
     return StreamBuilder(
       stream: bloc.password,
       builder: (context, snapshot) {
