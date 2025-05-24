@@ -24,7 +24,7 @@ class LoginBlocScreen extends StatelessWidget {
               SizedBox(height: 16), // Add consistent spacing
               passwordField(bloc),
               SizedBox(height: 25),
-              submitButton(),
+              submitButton(bloc),
             ],
           ),
         ),
@@ -66,7 +66,15 @@ class LoginBlocScreen extends StatelessWidget {
     );
   }
 
-  Widget submitButton() {
-    return ElevatedButton(onPressed: () => {}, child: Text('Submit'));
+  Widget submitButton(Bloc bloc) {
+    return StreamBuilder(
+      stream: bloc.submitValid,
+      builder: (context, snapshot) {
+        return ElevatedButton(
+          onPressed: snapshot.hasData ? bloc.submit : null,
+          child: Text('Submit'),
+        );
+      },
+    );
   }
 }
