@@ -8,7 +8,25 @@ class Home extends StatefulWidget {
   HomeState createState() => HomeState();
 }
 
-class HomeState extends State<Home> {
+class HomeState extends State<Home> with TickerProviderStateMixin {
+  Animation<double> catAnimation;
+  AnimationController catController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    catController = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    catAnimation = Tween(
+      begin: 0.00,
+      end: 100.0,
+    ).animate(CurvedAnimation(parent: catController, curve: Curves.easeIn));
+  }
+
   @override
   Widget build(context) {
     return Scaffold(
