@@ -25,15 +25,23 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       begin: 0.00,
       end: 100.0,
     ).animate(CurvedAnimation(parent: catController, curve: Curves.easeIn));
+  }
 
-    catController.forward();
+  onTap() {
+    catController.status == AnimationStatus.completed
+        ? catController.reverse()
+        : catController.forward();
+
+    //  Or
+    //   if(catController.status == AnimationStatus.completed){}
+    //   else if(catController.status == AnimationStatus.dismissed){} // -> To check whether animation is started or not
   }
 
   @override
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(title: Text('Animation')),
-      body: buildAnimation(),
+      body: GestureDetector(child: buildAnimation(), onTap: onTap),
     );
   }
 
