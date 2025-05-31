@@ -38,27 +38,34 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     boxAnimation = Tween(
       begin: pi * 0.6,
       end: pi * 0.65,
-    ).animate(CurvedAnimation(parent: boxController, curve: Curves.linear));
+    ).animate(CurvedAnimation(parent: boxController, curve: Curves.easeInOut));
 
-    boxAnimation.addStatusListener((status) {
-      // if (status == AnimationStatus.completed) {
-      //   boxController.repeat();
-      // }
-      if (status == AnimationStatus.completed) {
-        boxController.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        boxController.forward();
-      }
-    });
+    // boxAnimation.addStatusListener((status) {
+    // if (status == AnimationStatus.completed) {
+    //   boxController.repeat();
+    // }
+    // if (status == AnimationStatus.completed) {
+    //   boxController.reverse();
+    // } else if (status == AnimationStatus.dismissed) {
+    //   boxController.forward();
+    // }
+    // });
 
     boxController.forward();
   }
 
   onTap() {
-    catController.status == AnimationStatus.completed
-        ? catController.reverse()
-        : catController.forward();
+    // catController.status == AnimationStatus.completed
+    //     ? catController.reverse()
+    //     : catController.forward();
 
+    if (catController.status == AnimationStatus.completed) {
+      catController.reverse();
+      boxController.forward();
+    } else if (catController.status == AnimationStatus.dismissed) {
+      catController.forward();
+      boxController.reverse();
+    }
     //  Or
     //   if(catController.status == AnimationStatus.completed){}
     //   else if(catController.status == AnimationStatus.dismissed){} // -> To check whether animation is started or not
