@@ -13,6 +13,8 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> with TickerProviderStateMixin {
   late Animation<double> catAnimation;
   late AnimationController catController;
+  late Animation<double> boxAnimation;
+  late AnimationController boxController;
 
   @override
   void initState() {
@@ -27,6 +29,24 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       begin: -35.00,
       end: -80.0,
     ).animate(CurvedAnimation(parent: catController, curve: Curves.easeIn));
+
+    boxController = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    boxAnimation = Tween(
+      begin: 0.0,
+      end: 3.14,
+    ).animate(CurvedAnimation(parent: boxController, curve: Curves.linear));
+
+    boxAnimation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        boxController.repeat();
+      }
+    });
+
+    boxController.forward();
   }
 
   onTap() {
@@ -48,7 +68,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         child: Center(
           child: Stack(
             clipBehavior: Clip.none,
-            children: [buildCatAnimation(), buildBox(), buildLeftFlap()],
+            children: [buildCatAnimation(), buildLeftFlap(), buildBox()],
           ),
         ),
       ),
@@ -70,16 +90,29 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   Widget buildBox() {
-    return Container(height: 200.0, width: 200.0, color: Colors.brown);
+    return Container(
+      // clipBehavior: Clip.none,
+      height: 200.0,
+      width: 200.0,
+      color: Colors.brown,
+    );
   }
 
   Widget buildLeftFlap() {
+    // return Container(height: 10.0, width: 120.0, color: Colors.red);
+
     return Positioned(
       left: 3.0,
-      child: Transform.rotate(
-        angle: pi * 0.6,
-        alignment: Alignment.topLeft,
-        child: Container(height: 10.0, width: 120.0, color: Colors.brown),
+      child: AnimatedBuilder(
+        animation: boxAnimation,
+        child: Container(height: 10.0, width: 120.0, color: Colors.red),
+        builder: (context, child) {
+          return Transform.rotate(
+            alignment: Alignment.topLeft,
+            angle: boxAnimation.value,
+            child: child,
+          );
+        },
       ),
     );
   }
