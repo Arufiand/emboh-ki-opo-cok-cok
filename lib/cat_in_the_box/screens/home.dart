@@ -15,6 +15,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   late AnimationController catController;
   late Animation<double> boxAnimation;
   late AnimationController boxController;
+  late AnimationController jiggleController;
+  late Animation<double> jiggleAnimation;
 
   @override
   void initState() {
@@ -52,6 +54,19 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     // });
 
     boxController.forward();
+
+    jiggleController = AnimationController(
+      duration: Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    jiggleAnimation = Tween(begin: -5.0, end: 5.0).animate(
+      CurvedAnimation(parent: jiggleController, curve: Curves.easeInOut),
+    );
+
+    // Optional: Start automatically
+    jiggleController.forward();
+    // start jiggle loop
   }
 
   onTap() {
@@ -66,6 +81,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       catController.forward();
       boxController.reverse();
     }
+    // Trigger side-to-side jiggle
+    jiggleController.forward(from: 0.0);
     //  Or
     //   if(catController.status == AnimationStatus.completed){}
     //   else if(catController.status == AnimationStatus.dismissed){} // -> To check whether animation is started or not
@@ -107,11 +124,15 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   Widget buildBox() {
-    return Container(
-      // clipBehavior: Clip.none,
-      height: 200.0,
-      width: 200.0,
-      color: Colors.brown,
+    return AnimatedBuilder(
+      animation: jiggleAnimation,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(jiggleAnimation.value, 0),
+          child: child,
+        );
+      },
+      child: Container(height: 200.0, width: 200.0, color: Colors.brown),
     );
   }
 
@@ -147,5 +168,13 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    catController.dispose();
+    boxController.dispose();
+    jiggleController.dispose();
+    super.dispose();
   }
 }
