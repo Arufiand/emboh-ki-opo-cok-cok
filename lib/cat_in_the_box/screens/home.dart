@@ -73,7 +73,12 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         child: Center(
           child: Stack(
             clipBehavior: Clip.none,
-            children: [buildCatAnimation(), buildLeftFlap(), buildBox()],
+            children: [
+              buildCatAnimation(),
+              buildBox(),
+              buildLeftFlap(),
+              buildRightFlap(),
+            ],
           ),
         ),
       ),
@@ -104,8 +109,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   Widget buildLeftFlap() {
-    // return Container(height: 10.0, width: 120.0, color: Colors.red);
-
     return Positioned(
       left: 3.0,
       child: AnimatedBuilder(
@@ -115,6 +118,23 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
           return Transform.rotate(
             alignment: Alignment.topLeft,
             angle: boxAnimation.value,
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildRightFlap() {
+    return Positioned(
+      right: 3.0,
+      child: AnimatedBuilder(
+        animation: boxAnimation,
+        child: Container(height: 10.0, width: 120.0, color: Colors.brown),
+        builder: (context, child) {
+          return Transform.rotate(
+            alignment: Alignment.topRight,
+            angle: -boxAnimation.value,
             child: child,
           );
         },
