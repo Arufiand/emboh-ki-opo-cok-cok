@@ -42,16 +42,16 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       end: pi * 0.65,
     ).animate(CurvedAnimation(parent: boxController, curve: Curves.easeInOut));
 
-    // boxAnimation.addStatusListener((status) {
-    // if (status == AnimationStatus.completed) {
-    //   boxController.repeat();
-    // }
-    // if (status == AnimationStatus.completed) {
-    //   boxController.reverse();
-    // } else if (status == AnimationStatus.dismissed) {
-    //   boxController.forward();
-    // }
-    // });
+    boxAnimation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        boxController.repeat();
+      }
+      if (status == AnimationStatus.completed) {
+        boxController.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        boxController.forward();
+      }
+    });
 
     boxController.forward();
 
@@ -79,7 +79,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       boxController.forward();
     } else if (catController.status == AnimationStatus.dismissed) {
       catController.forward();
-      boxController.reverse();
+      boxController.stop();
     }
     // Trigger side-to-side jiggle
     jiggleController.forward(from: 0.0);
