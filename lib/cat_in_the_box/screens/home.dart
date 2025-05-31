@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:learning/cat_in_the_box/widgets/cat.dart';
 
@@ -46,7 +48,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         child: Center(
           child: Stack(
             clipBehavior: Clip.none,
-            children: [buildCatAnimation(), buildBox()],
+            children: [buildCatAnimation(), buildBox(), buildLeftFlap()],
           ),
         ),
       ),
@@ -69,5 +71,13 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
   Widget buildBox() {
     return Container(height: 200.0, width: 200.0, color: Colors.brown);
+  }
+
+  Widget buildLeftFlap() {
+    return Transform.rotate(
+      angle: pi / 2.0,
+      alignment: Alignment.topLeft,
+      child: Container(height: 10.0, width: 120.0, color: Colors.red),
+    );
   }
 }
