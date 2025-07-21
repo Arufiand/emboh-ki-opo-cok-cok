@@ -35,6 +35,34 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  # State Management (BLoC & Provider)
+  flutter_bloc: ^9.1.1 # Core BLoC package for reactive state management
+  provider: ^6.1.5 # For dependency injection and simpler state management
+  equatable: ^2.0.7 # Simplifies equality comparisons for BLoC states and events
+
+  # Offline Storage (Hive)
+  hive: ^2.2.3         # Fast, lightweight, and simple NoSQL database
+  hive_flutter: ^1.1.0 # Flutter-specific utilities for Hive (e.g., path_provider integration)
+  path_provider: ^2.1.5 # Provides access to file system paths for Hive storage
+
+  # NFC (Near Field Communication)
+  nfc_manager: ^4.0.2  # For reading and writing NFC tags
+
+  # Camera
+  camera: ^0.11.2   # Official Flutter plugin for camera access
+
+  # Network (for data upload/sync later)
+  dio: ^5.8.0+1         # A powerful HTTP client for making network requests
+
+  # Background Tasks (for large master data synchronization)
+  # Choose one based on your primary target platform or include both for cross-platform
+  workmanager: ^0.8.0  # For robust background tasks on Android
+
+  # Utilities
+  get_it: ^8.0.3   # A simple service locator for dependency injection
+  intl: ^0.20.2      # For internationalization, date/number formatting, etc.
+  flutter_native_splash: ^2.4.6 # For creating a custom splash screen
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -45,6 +73,11 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+
+  # Code Generation for Hive and JSON Serialization
+  hive_generator: ^2.0.1 # Code generator for Hive adapters
+  build_runner: ^2.5.4 # Tool to run code generators (required by hive_generator and json_serializable)
+  json_serializable: ^6.9.0 # Code generator for JSON serialization/deserialization
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
