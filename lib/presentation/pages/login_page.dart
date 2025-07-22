@@ -1,6 +1,6 @@
+// lib/presentation/pages/login_page.dart
 import 'package:flutter/material.dart';
-import 'package:epms_flutter/core/theme/app_colors.dart'; // Untuk mengakses warna langsung jika perlu
-import 'package:epms_flutter/core/theme/app_text_styles.dart'; // Untuk mengakses gaya teks langsung jika perlu
+import 'package:go_router/go_router.dart'; // Untuk navigasi GoRouter
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,24 +12,21 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>(); // Kunci untuk validasi form
+  final _formKey = GlobalKey<FormState>(); // Key untuk validasi form
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Mengakses Theme.of(context) untuk menggunakan tema global Anda
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme; // Akses textTheme dari tema global
-    final colorScheme = theme.colorScheme; // Akses colorScheme dari tema global
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'EPMS LOGIN PAGE',
-          // Gaya teks dari tema global, atau bisa di-override jika perlu
-          style: textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary),
-        ),
+        title: const Text('Login Aplikasi EPMS'),
         centerTitle: true,
-        // Warna AppBar sudah diatur di app_theme.dart, jadi tidak perlu di sini
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -38,24 +35,21 @@ class _LoginPageState extends State<LoginPage> {
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  'Welcome',
-                  style: textTheme.headlineLarge?.copyWith(
-                    color: AppColors
-                        .primaryColor, // Menggunakan warna dari AppColors
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
+              children: [
+                // Logo atau Icon Aplikasi
+                Icon(
+                  Icons.lock_open_rounded,
+                  size: 100,
+                  color: Theme.of(context).primaryColor,
                 ),
-                const SizedBox(height: 32.0),
+                const SizedBox(height: 30.0),
+
                 TextFormField(
                   controller: _usernameController,
                   decoration: const InputDecoration(
                     labelText: 'Username',
-                    hintText: 'Masukkan username Anda',
                     prefixIcon: Icon(Icons.person),
+                    border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -65,13 +59,14 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 const SizedBox(height: 16.0),
+
                 TextFormField(
                   controller: _passwordController,
-                  obscureText: true,
+                  obscureText: true, // Untuk menyembunyikan teks password
                   decoration: const InputDecoration(
                     labelText: 'Password',
-                    hintText: 'Masukkan password Anda',
                     prefixIcon: Icon(Icons.lock),
+                    border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -80,50 +75,47 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 32.0),
-                ElevatedButton(
-                  onPressed: () {
-                    // Hanya melakukan validasi form untuk saat ini
-                    if (_formKey.currentState!.validate()) {
-                      // Ini adalah tempat di mana Anda nanti akan memanggil BLoC login
-                      // Untuk saat ini, kita hanya menampilkan pesan sederhana
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Username: ${_usernameController.text}, Password: ${_passwordController.text}',
-                          ),
-                        ),
-                      );
-                      // Contoh navigasi ke halaman lain setelah "login"
-                      // Navigator.of(context).pushReplacement(
-                      //   MaterialPageRoute(builder: (_) => const HomePage()),
-                      // );
-                    }
-                  },
-                  child: Text(
-                    'Login',
-                    // Gaya teks tombol biasanya diatur di elevatedButtonTheme
-                    // Tetapi bisa di-override jika perlu
-                    style: textTheme.labelLarge?.copyWith(
-                      color: colorScheme.onPrimary,
+                const SizedBox(height: 24.0),
+
+                // Tombol Login
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // TODO: Implementasi logika Login (akan memanggil AuthBloc)
+                        final username = _usernameController.text;
+                        final password = _passwordController.text;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  'Mencoba Login dengan: $username / $password')),
+                        );
+                        // Nanti akan dispatch event LoginRequested
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20.0),
+                const SizedBox(height: 16.0),
+
+                // Tombol "IP Config"
                 TextButton(
                   onPressed: () {
-                    // Aksi untuk "Lupa Password?"
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Fitur Lupa Password segera hadir!'),
-                      ),
-                    );
+                    context.push('/ip-config'); // Navigasi ke halaman IP Config
                   },
                   child: Text(
-                    'IP CONFIGURATION',
-                    style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.secondary,
-                    ),
+                    'Konfigurasi IP Backend',
+                    style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 ),
               ],
@@ -132,12 +124,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 }

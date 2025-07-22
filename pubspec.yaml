@@ -1,36 +1,60 @@
 name: epms_flutter
 description: "A new Flutter project."
 
-publish_to: 'none'
+publish_to: 'none' # Jangan diubah jika ini adalah aplikasi pribadi
 
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.8.1
+  sdk: '>=3.0.0 <4.0.0' # Menggunakan rentang versi SDK yang lebih umum
 
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  http: ^1.2.1 
-  internet_connection_checker_plus: ^2.3.0 
-  get_it: ^7.7.0
-  flutter_bloc: ^8.1.5 
-  equatable: ^2.0.5 
-  hive: ^2.2.3 
-  hive_flutter: ^1.1.0 
-  path_provider: ^2.1.3 
-  shared_preferences: ^2.2.3 
+
+  # HTTP Client (fokus ke Dio)
+  dio: ^5.4.3+1 # Sudah ada, bagus!
+
+  # Connectivity Check (Internet Connection Checker Plus sudah oke)
+  internet_connection_checker_plus: ^2.3.0 # Sudah ada, bagus!
+
+  # Dependency Injection
+  get_it: ^8.0.3 # Sudah ada, bagus!
+
+  # State Management (BLoC)
+  flutter_bloc: ^9.1.1 # Sudah ada, bagus!
+  equatable: ^2.0.5 # Sudah ada, bagus!
+
+  # Local Storage (Hive)
+  hive: ^2.2.3 # Sudah ada, bagus!
+  hive_flutter: ^1.1.0 # Sudah ada, bagus!
+  path_provider: ^2.1.3 # Sudah ada, bagus!
+
+  # Preferensi Lokal (SharedPreferences - opsional jika semua data lokal pakai Hive)
+  # shared_preferences: ^2.2.3 # Sudah ada. Perhatikan: jika semua data lokal (seperti token, config) akan disimpan di Hive, Shared Preferences mungkin tidak diperlukan. Ini pilihan Anda.
+
+  # Navigation
+  go_router: ^16.0.0 # <--- TAMBAHAN: Untuk navigasi aplikasi
+
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
-  hive_generator: ^2.0.1
-  build_runner: ^2.4.9 
+  flutter_lints: ^6.0.0 # Versi baru untuk lints
+
+  # Hive Generator
+  hive_generator: ^2.0.1 # Sudah ada, bagus!
+  build_runner: ^2.4.9 # Sudah ada, bagus!
 
 flutter:
   uses-material-design: true
 
+  # Tambahkan bagian assets jika Anda berencana menggunakan gambar, font, dll.
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
+  #   - assets/fonts/

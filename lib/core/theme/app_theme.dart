@@ -139,6 +139,6 @@ class AppTheme {
 
   // Tema gelap aplikasi (kosong untuk saat ini, bisa diisi nanti).
   static ThemeData darkTheme = ThemeData(
-    // ... definisi tema gelap Anda di sini
-  );
+      // ... definisi tema gelap Anda di sini
+      );
 }
