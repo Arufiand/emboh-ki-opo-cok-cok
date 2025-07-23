@@ -1,5 +1,5 @@
 import 'exception.dart';
-import 'failure.dart';
+import 'failures.dart';
 
 Failure mapExceptionToFailure(Exception e) {
   if (e is ServerException) return ServerFailure(e.message);
