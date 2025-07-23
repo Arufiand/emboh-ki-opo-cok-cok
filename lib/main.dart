@@ -6,6 +6,7 @@ import 'core/utils/hive_config.dart';
 import 'core/di/di.dart';
 import 'core/router/app_router.dart';
 import 'presentation/blocs/auth/auth_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,10 +31,18 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<AuthBloc>()..add(CheckAuthStatusRequested()),
         ),
       ],
-      child: MaterialApp.router(
-        title: 'EPMS App',
-        theme: AppTheme.lightTheme,
-        routerConfig: appRouter,
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthUnauthenticated) {
+            // Pindah ke halaman login saat logout berhasil
+            context.go('/login');
+          }
+        },
+        child: MaterialApp.router(
+          title: 'EPMS App',
+          theme: AppTheme.lightTheme,
+          routerConfig: appRouter,
+        ),
       ),
     );
   }
