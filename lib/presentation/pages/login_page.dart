@@ -26,25 +26,32 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        // Handle showing/hiding dialog only if it's currently showing
         if (state is AuthLoading) {
-          // Menampilkan loading (optional)
+          // Show loading dialog
           showDialog(
             context: context,
             barrierDismissible: false,
             builder: (_) => const Center(child: CircularProgressIndicator()),
           );
-        }
-
-        if (state is AuthAuthenticated) {
-          Navigator.of(context).pop(); // Tutup loading dialog
-          context.go('/dashboard');
-        }
-
-        if (state is AuthError) {
-          Navigator.of(context).pop(); // Tutup loading dialog
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
+        } else if (state is AuthAuthenticated) {
+          // FIX: Defer navigation and ensure dialog is popped
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) {
+              Navigator.of(context).pop(); // Close loading dialog
+              context.go('/dashboard');
+            }
+          });
+        } else if (state is AuthError) {
+          // FIX: Defer dialog pop and SnackBar
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) {
+              Navigator.of(context).pop(); // Close loading dialog
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+            }
+          });
         }
       },
       child: Scaffold(
