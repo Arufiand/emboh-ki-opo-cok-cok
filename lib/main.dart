@@ -1,11 +1,11 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart'; // <--- Komentari/hapus import ini untuk sementara
-import 'package:get_it/get_it.dart'; // Import for sl
-import 'package:epms_flutter/core/theme/app_theme.dart'; // Import tema global Anda
-import 'core/utils/hive_config.dart'; // Import HiveConfig
-import 'core/di/di.dart'; // Import GetIt init function
-import 'core/router/app_router.dart'; // Import appRouter
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:epms_flutter/core/theme/app_theme.dart';
+import 'core/utils/hive_config.dart';
+import 'core/di/di.dart';
+import 'core/router/app_router.dart';
+import 'presentation/blocs/auth/auth_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,26 +24,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return BlocProvider( // <--- Komentari baris ini
-    //   // BlocProvider global untuk NetworkStatusCubit (sementara dikomentari)
-    //   // Ini akan diaktifkan setelah NetworkStatusCubit dibuat di folder presentation/blocs
-    //   create: (context) {
-    //     // return sl<NetworkStatusCubit>()..checkNetworkStatus();
-    //     return /* Placeholder for NetworkStatusCubit */; // Placeholder sementara
-    //   },
-    //   child: MaterialApp.router( // <--- Komentari baris ini
-    return MaterialApp.router(
-      // <--- Ganti dengan ini (jangan dibungkus BlocProvider dulu)
-      title: 'EPMS App',
-      // --- Mengaplikasikan Tema Global Anda ---
-      theme: AppTheme.lightTheme, // Menggunakan tema terang dari AppTheme
-      // darkTheme: AppTheme.darkTheme, // Jika Anda memiliki tema gelap
-      // themeMode: ThemeMode.system, // Opsional: Ikuti pengaturan sistem
-
-      // Menggunakan routerConfig dari GoRouter
-      routerConfig:
-          appRouter, // Mengarahkan ke GoRouter yang sudah didefinisikan
-      //   ), // <--- Komentari baris ini
-    ); // <--- Komentari baris ini
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (context) => sl<AuthBloc>()..add(CheckAuthStatusRequested()),
+        ),
+      ],
+      child: MaterialApp.router(
+        title: 'EPMS App',
+        theme: AppTheme.lightTheme,
+        routerConfig: appRouter,
+      ),
+    );
   }
 }

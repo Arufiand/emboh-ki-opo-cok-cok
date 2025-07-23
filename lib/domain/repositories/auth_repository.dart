@@ -12,6 +12,7 @@ abstract class AuthRepository {
   // - Right (void) jika login berhasil.
   Future<Either<Failure, void>> login(String username, String password);
 
-  // Future<Either<Failure, void>> logout(); // Akan ditambahkan nanti untuk logout
-  // Future<Either<Failure, bool>> checkAuthStatus(); // Akan ditambahkan nanti untuk cek status autentikasi
+  Future<Either<Failure, void>> logout(); // Akan ditambahkan nanti untuk logout
+  Future<Either<Failure, bool>>
+      checkAuthStatus(); // Akan ditambahkan nanti untuk cek status autentikasi
 }

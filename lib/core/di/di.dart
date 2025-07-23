@@ -1,4 +1,5 @@
 // lib/core/di/di.dart
+import 'package:epms_flutter/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -12,10 +13,17 @@ import '../utils/hive_config.dart'; // Import HiveConfig untuk nama box
 // --- Import untuk Fitur Konfigurasi API ---
 import '../../data/datasources/local/app_config_local_datasource.dart';
 import '../../data/repositories/app_config_repository_impl.dart';
-import '../../domain/repositories/app_config_repository.dart'; // Import interface
+import '../../domain/repositories/app_config_repository.dart';
 import '../../domain/usecases/get_api_url.dart';
 import '../../domain/usecases/save_api_url.dart';
-import '../../presentation/blocs/ip_config/ip_config_bloc.dart'; // Import IpConfigBloc
+import '../../presentation/blocs/ip_config/ip_config_bloc.dart';
+
+// --- Import untuk Fitur Konfigurasi Auth ---
+import '../../data/datasources/local/auth_local_datasource.dart';
+import '../../data/repositories/auth_repository_impl.dart';
+import '../../domain/repositories/auth_repository.dart';
+import '../../domain/usecases/login_user.dart';
+import '../../presentation/blocs/auth/auth_bloc.dart';
 
 final sl = GetIt.instance; // sl = service locator
 
@@ -38,43 +46,52 @@ Future<void> init() async {
     () => NetworkInfoImpl(sl(), sl()),
   );
 
-  // Presentation Layer - Blocs/Cubits (yang belum terkait fitur Auth/Network Status global)
-  // sl.registerFactory(() => NetworkStatusCubit(sl())); // Masih dikomentari
-
-  // --- Implementasi Layer Data dan Domain untuk Konfigurasi API ---
-
+// API CONFIG
   // Data Sources
   sl.registerLazySingleton<AppConfigLocalDataSource>(
     () => AppConfigLocalDataSourceImpl(
       settingsBox: sl<Box<String>>(instanceName: HiveConfig.SETTINGS_BOX),
     ),
   );
-
   // Repositories
   sl.registerLazySingleton<AppConfigRepository>(
     () => AppConfigRepositoryImpl(localDataSource: sl()),
   );
-
   // Use Cases
-  sl.registerLazySingleton(
-      () => GetApiUrl(sl())); // Membutuhkan AppConfigRepository
-  sl.registerLazySingleton(
-      () => SaveApiUrl(sl())); // Membutuhkan AppConfigRepository
+  sl.registerLazySingleton(() => GetApiUrl(sl()));
+  sl.registerLazySingleton(() => SaveApiUrl(sl()));
 
   // Blocs
   sl.registerFactory(() => IpConfigBloc(
-        getApiUrl: sl(), // Membutuhkan GetApiUrl use case
-        saveApiUrl: sl(), // Membutuhkan SaveApiUrl use case
+        getApiUrl: sl(),
+        saveApiUrl: sl(),
       ));
 
-  // --- Placeholder untuk Fitur Login (Fase 3) ---
-  // sl.registerLazySingleton<AuthLocalDataSource>(
-  //   () => AuthLocalDataSourceImpl(sl(instanceName: HiveConfig.AUTH_BOX)),
-  // );
-  // sl.registerLazySingleton<AuthRemoteDataSource>(
-  //   () => AuthRemoteDataSourceImpl(sl()),
-  // );
-  // sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl(), sl()));
-  // sl.registerLazySingleton(() => LoginUser(sl()));
-  // sl.registerFactory(() => AuthBloc(sl()));
+  // Auth
+  // Data Sources
+  sl.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSourceImpl(
+      authBox: sl<Box<String>>(instanceName: HiveConfig.AUTH_BOX),
+    ),
+  );
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSourceImpl(dioClient: sl()),
+  );
+
+  // Repositories
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(
+      localDataSource: sl(),
+      remoteDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Use Cases
+  sl.registerLazySingleton(() => LoginUser(sl()));
+  // Blocs
+  sl.registerFactory(() => AuthBloc(
+        loginUser: sl(),
+        authRepository: sl(),
+      ));
 }

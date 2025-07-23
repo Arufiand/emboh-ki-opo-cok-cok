@@ -74,36 +74,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  // Handler untuk event CheckAuthStatusRequested (akan diimplementasikan nanti)
   Future<void> _onCheckAuthStatusRequested(
     CheckAuthStatusRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
-    // TODO: Implementasi logika cek status autentikasi dari _authRepository
-    // final result = await _authRepository.checkAuthStatus();
-    // result.fold(
-    //   (failure) => emit(AuthError(message: _mapFailureToMessage(failure))),
-    //   (isAuthenticated) {
-    //     if (isAuthenticated) {
-    //       emit(AuthAuthenticated());
-    //     } else {
-    //       emit(AuthUnauthenticated());
-    //     }
-    //   },
-    // );
-    await Future.delayed(const Duration(milliseconds: 500)); // Simulasi
-    try {
-      final bool isAuthenticated = await _authRepository
-          .checkAuthStatus(); // Panggil metode check status
-      if (isAuthenticated) {
-        emit(AuthAuthenticated());
-      } else {
-        emit(AuthUnauthenticated());
-      }
-    } on Failure catch (e) {
-      emit(AuthError(message: _mapFailureToMessage(e)));
-    }
+    emit(AuthLoading()); // Emit state loading
+
+    // Hapus simulasi Future.delayed ini jika Anda sudah memiliki logika autentikasi sebenarnya.
+    // await Future.delayed(const Duration(milliseconds: 500)); // Simulasi
+
+    // Panggil use case/repository dan dapatkan hasilnya (Either<Failure, bool>)
+    final result =
+        await _authRepository.checkAuthStatus(); // <-- Diperbaiki di sini
+
+    // Gunakan fold() untuk menangani kedua kemungkinan hasil dari Either
+    result.fold(
+      // Sisi KIRI (Failure): Jika operasi gagal
+      (failure) => emit(AuthError(
+          message: _mapFailureToMessage(failure))), // Emit state Error
+      // Sisi KANAN (bool): Jika operasi berhasil
+      (isAuthenticated) {
+        if (isAuthenticated) {
+          emit(AuthAuthenticated()); // Emit state Authenticated
+        } else {
+          emit(AuthUnauthenticated()); // Emit state Unauthenticated
+        }
+      },
+    );
   }
 
   // Helper function untuk memetakan Failure ke pesan yang lebih mudah dibaca

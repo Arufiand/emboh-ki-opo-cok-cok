@@ -1,10 +1,10 @@
 // lib/data/repositories/auth_repository_impl.dart
-import 'package:dartz/dartz.dart'; // Untuk Either
-import '../../core/errors/failures.dart'; // Untuk Failure (AuthFailure)
-import '../../domain/repositories/auth_repository.dart'; // Import interface AuthRepository
-import '../../data/datasources/local/auth_local_datasource.dart'; // Import AuthLocalDataSource
-import '../../data/datasources/remote/auth_remote_datasource.dart'; // Import AuthRemoteDataSource (untuk masa depan)
-import '../../core/network/network_info.dart'; // Import NetworkInfo (untuk cek koneksi, opsional untuk hardcode)
+import 'package:dartz/dartz.dart';
+import '../../core/errors/failures.dart';
+import '../../domain/repositories/auth_repository.dart';
+import '../../data/datasources/local/auth_local_datasource.dart';
+import '../../data/datasources/remote/auth_remote_datasource.dart';
+import '../../core/network/network_info.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
@@ -62,25 +62,26 @@ class AuthRepositoryImpl implements AuthRepository {
 
   // Metode tambahan yang mungkin akan diimplementasikan di AuthRepositoryImpl
   // @override
-  // Future<Either<Failure, void>> logout() async {
-  //   try {
-  //     await localDataSource.clearLoginStatus();
-  //     // Jika ada logout API: await remoteDataSource.logout();
-  //     return const Right(unit);
-  //   } on CacheFailure catch (e) {
-  //     return Left(e);
-  //   } on ServerFailure catch (e) { // Jika ada remote logout
-  //     return Left(e);
-  //   }
-  // }
+  Future<Either<Failure, void>> logout() async {
+    try {
+      await localDataSource.clearLoginStatus();
+      // Jika ada logout API: await remoteDataSource.logout();
+      return const Right(unit);
+    } on CacheFailure catch (e) {
+      return Left(e);
+    } on ServerFailure catch (e) {
+      // Jika ada remote logout
+      return Left(e);
+    }
+  }
 
   // @override
-  // Future<Either<Failure, bool>> checkAuthStatus() async {
-  //   try {
-  //     final bool isLoggedIn = await localDataSource.getLoginStatus();
-  //     return Right(isLoggedIn);
-  //   } on CacheFailure catch (e) {
-  //     return Left(e);
-  //   }
-  // }
+  Future<Either<Failure, bool>> checkAuthStatus() async {
+    try {
+      final bool isLoggedIn = await localDataSource.getLoginStatus();
+      return Right(isLoggedIn);
+    } on CacheFailure catch (e) {
+      return Left(e);
+    }
+  }
 }

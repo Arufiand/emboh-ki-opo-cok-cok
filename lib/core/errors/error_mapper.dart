@@ -1,4 +1,4 @@
-import 'exception.dart';
+import 'exceptions.dart';
 import 'failures.dart';
 
 Failure mapExceptionToFailure(Exception e) {
