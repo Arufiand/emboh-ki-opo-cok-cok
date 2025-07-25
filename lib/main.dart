@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:provider/provider.dart';
 
+void main() {
+  runApp(FeatureName1Page());
+}
+
 class FeatureName1Page extends StatelessWidget {
   const FeatureName1Page({super.key});
 
