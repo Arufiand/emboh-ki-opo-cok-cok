@@ -1,5 +1,6 @@
-import 'package:english_words/english_words.dart';
+// lib/widgets/big_card.dart
 import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart'; // Import WordPair
 
 class BigCard extends StatelessWidget {
   const BigCard({super.key, required this.pair});
@@ -9,7 +10,8 @@ class BigCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var style = theme.textTheme.displayMedium!.copyWith(
+    // Use .displaySmall for better default sizing on mobile
+    var style = theme.textTheme.displaySmall!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
 
@@ -18,9 +20,7 @@ class BigCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: AnimatedSize(
-          duration: Duration(milliseconds: 200),
-          // Make sure that the compound word wraps correctly when the window
-          // is too narrow.
+          duration: const Duration(milliseconds: 200),
           child: MergeSemantics(
             child: Wrap(
               children: [

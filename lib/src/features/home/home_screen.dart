@@ -1,16 +1,16 @@
+// lib/pages/my_home_page.dart
+import 'package:belajar/src/features/favorites/favorite_screen.dart';
+import 'package:belajar/src/features/generator/generator_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../widget/generator_widget.dart';
-import '../favorites/favorite_screen.dart';
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   var selectedIndex = 0;
 
   @override
@@ -20,21 +20,19 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = GeneratorPage();
+        page = const GeneratorScreen();
         break;
       case 1:
-        page = FavoritesPage();
+        page = const FavoriteScreen();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
 
-    // The container for the current page, with its background color
-    // and subtle switching animation.
     var mainArea = ColoredBox(
       color: colorScheme.surfaceContainerHighest,
       child: AnimatedSwitcher(
-        duration: Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 200),
         child: page,
       ),
     );
@@ -43,14 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 450) {
-            // Use a more mobile-friendly layout with BottomNavigationBar
-            // on narrow screens.
             return Column(
               children: [
                 Expanded(child: mainArea),
                 SafeArea(
                   child: BottomNavigationBar(
-                    items: [
+                    items: const [
                       BottomNavigationBarItem(
                         icon: Icon(Icons.home),
                         label: 'Home',
@@ -76,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SafeArea(
                   child: NavigationRail(
                     extended: constraints.maxWidth >= 600,
-                    destinations: [
+                    destinations: const [
                       NavigationRailDestination(
                         icon: Icon(Icons.home),
                         label: Text('Home'),
