@@ -1,3 +1,4 @@
+// import 'package:epms_flutter/app.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
-        page = Placeholder();
+        page = FavoritesPage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -172,6 +173,39 @@ class BigCard extends StatelessWidget {
           semanticsLabel: "${pair.first} ${pair.second}",
         ),
       ),
+    );
+  }
+}
+
+class FavoritesPage extends StatelessWidget {
+  const FavoritesPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var favorites = appState.favorites;
+    
+    if(favorites.isEmpty){
+      return Center(
+        child: Text('No Favorites Yet'),
+      );
+    }
+    
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Text('You have '
+              '${appState.favorites.length} favorites:'),
+        ),
+        ...appState.favorites.map((pair) {
+          // 'pair' here is each item from your appState.favorites list
+          return ListTile(
+            leading: const Icon(Icons.favorite), // Use const for static icons
+            title: Text(pair.asLowerCase), // Using .toLowerCase() assuming 'pair' is a String
+          );
+        }),
+      ],
     );
   }
 }
