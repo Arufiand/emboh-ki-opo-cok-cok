@@ -1,7 +1,10 @@
+// lib/presentation/pages/login_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../blocs/auth/auth_bloc.dart';
+// FIX: Import AppColors untuk penggunaan warna spesifik
+import '../../core/theme/app_theme.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,37 +27,46 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Akses tema melalui Theme.of(context)
+    final theme = Theme.of(context);
+
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        // Handle showing/hiding dialog only if it's currently showing
         if (state is AuthLoading) {
-          // Show loading dialog
           showDialog(
             context: context,
             barrierDismissible: false,
             builder: (_) => const Center(child: CircularProgressIndicator()),
           );
         } else if (state is AuthAuthenticated) {
-          // FIX: Defer navigation and ensure dialog is popped
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (context.mounted) {
-              Navigator.of(context).pop(); // Close loading dialog
+              Navigator.of(context).pop();
               context.go('/dashboard');
             }
           });
         } else if (state is AuthError) {
-          // FIX: Defer dialog pop and SnackBar
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (context.mounted) {
-              Navigator.of(context).pop(); // Close loading dialog
+              // FIX: Pastikan dialog tertutup sebelum SnackBar muncul
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop(); // Close loading dialog
+              }
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor:
+                      AppColors.error, // Gunakan warna error dari tema
+                  behavior:
+                      SnackBarBehavior.floating, // Memberikan tampilan modern
+                ),
               );
             }
           });
         }
       },
       child: Scaffold(
+        // AppBar secara otomatis mengambil styling dari AppTheme.appBarTheme
         appBar: AppBar(
           title: const Text('Login Aplikasi EPMS'),
           centerTitle: true,
@@ -70,15 +82,17 @@ class _LoginPageState extends State<LoginPage> {
                   Icon(
                     Icons.lock_open_rounded,
                     size: 100,
-                    color: Theme.of(context).primaryColor,
+                    color:
+                        theme.primaryColor, // Mengambil warna primary dari tema
                   ),
                   const SizedBox(height: 30.0),
+                  // FIX: TextFormField akan mengambil styling dari InputDecorationTheme
                   TextFormField(
                     controller: _usernameController,
                     decoration: const InputDecoration(
                       labelText: 'Username',
                       prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder(),
+                      // border, focusedBorder, labelStyle dll. sudah diambil dari theme
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -94,7 +108,6 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: const InputDecoration(
                       labelText: 'Password',
                       prefixIcon: Icon(Icons.lock),
-                      border: OutlineInputBorder(),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -106,6 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 24.0),
                   SizedBox(
                     width: double.infinity,
+                    // FIX: ElevatedButton akan mengambil styling dari ElevatedButtonThemeData
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -120,15 +134,12 @@ class _LoginPageState extends State<LoginPage> {
                               );
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                      child: const Text(
+                      // Styling sudah diatur di tema, jadi tidak perlu manual lagi di sini
+                      // kecuali ada override spesifik untuk tombol ini.
+                      child: Text(
                         'Login',
-                        style: TextStyle(fontSize: 18.0),
+                        style: theme.textTheme
+                            .labelLarge, // Gunakan textStyle dari tema
                       ),
                     ),
                   ),
@@ -137,9 +148,13 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       context.push('/ip-config');
                     },
+                    // FIX: TextButton akan mengambil styling dari TextButtonThemeData
                     child: Text(
                       'Konfigurasi IP Backend',
-                      style: TextStyle(color: Theme.of(context).primaryColor),
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: theme
+                            .primaryColor, // Gunakan primaryColor dari tema
+                      ),
                     ),
                   ),
                 ],

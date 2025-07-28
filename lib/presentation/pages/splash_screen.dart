@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _navigateToNextScreen();
   }
 
-  _navigateToNextScreen() async {
+  Future<void> _navigateToNextScreen() async {
     // Memberikan delay eksplisit selama 3 detik (sesuaikan sesuai kebutuhan)
     // Anda bisa mengganti ini menjadi 5 detik jika mau.
     await Future.delayed(const Duration(seconds: 3));

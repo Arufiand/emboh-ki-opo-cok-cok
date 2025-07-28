@@ -6,7 +6,7 @@ import 'core/utils/hive_config.dart';
 import 'core/di/di.dart';
 import 'core/router/app_router.dart';
 import 'presentation/blocs/auth/auth_bloc.dart';
-import 'package:go_router/go_router.dart'; // Keep import for routerConfig
+// Keep import for routerConfig
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

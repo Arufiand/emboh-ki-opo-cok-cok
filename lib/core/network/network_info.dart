@@ -39,7 +39,7 @@ class NetworkInfoImpl implements NetworkInfo {
 
       // Jika status code 200, berarti API dapat dijangkau
       return response.statusCode == 200;
-    } on DioException catch (e) {
+    } on DioException {
       // Tangani error jaringan (timeout, host not found, dll.)
       // print('Error checking backend reachability: $e');
       return false;

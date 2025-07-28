@@ -62,6 +62,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   // Metode tambahan yang mungkin akan diimplementasikan di AuthRepositoryImpl
   // @override
+  @override
   Future<Either<Failure, void>> logout() async {
     try {
       await localDataSource.clearLoginStatus();
@@ -76,6 +77,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   // @override
+  @override
   Future<Either<Failure, bool>> checkAuthStatus() async {
     try {
       final bool isLoggedIn = await localDataSource.getLoginStatus();
