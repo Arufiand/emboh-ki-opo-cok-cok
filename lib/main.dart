@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mitch_koko_learning/new_pages/counter_pages.dart';
+import 'package:mitch_koko_learning/todo_pages/todo_pages.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,6 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: CounterPages());
+    return MaterialApp(home: TodoPages());
   }
 }
