@@ -8,8 +8,40 @@ class TodoPages extends StatefulWidget {
 }
 
 class _TodoPagesState extends State<TodoPages> {
+  TextEditingController textEditor = TextEditingController();
+
+  String username = "";
+
+  void greetUser() {
+    setState(() {
+      username = "Hello ${textEditor.text}";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(username),
+
+              TextField(
+                controller: textEditor,
+
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Username",
+                ),
+              ),
+              ElevatedButton(onPressed: greetUser, child: Text("Tap")),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
