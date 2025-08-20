@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mitch_koko_learning/todo_pages/todo_pages.dart';
+import 'package:mitch_koko_learning/todo_apps/home_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,6 +10,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: TodoPages());
+    return MaterialApp(
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: HomePage(),
+    );
   }
 }
