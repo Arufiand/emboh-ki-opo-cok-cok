@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class TodoList extends StatelessWidget {
+class ToDoTile extends StatelessWidget {
   final String taskName;
   final bool taskCompleted;
 
   Function(bool?)? onChanged;
 
-  TodoList({
+  ToDoTile({
     super.key,
     required this.taskName,
     required this.onChanged,
@@ -16,9 +16,9 @@ class TodoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(25.0),
+      padding: const EdgeInsets.only(left: 24, top: 24, right: 24, bottom: 24),
       child: Container(
-        padding: EdgeInsets.only(left: 24, top: 24, right: 24, bottom: 24),
+        padding: EdgeInsets.all(25.0),
         decoration: BoxDecoration(
           color: Colors.yellow,
           borderRadius: BorderRadius.circular(12),

@@ -28,10 +28,8 @@ class _TodoPagesState extends State<TodoPages> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(username),
-
               TextField(
                 controller: textEditor,
-
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Username",
