@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List _toDoList = [
+  final List _toDoList = [
     ["Make Exercise", false],
     ["Make Exercise 2", false],
   ];

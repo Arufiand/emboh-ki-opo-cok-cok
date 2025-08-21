@@ -4,9 +4,10 @@ import 'package:mitch_koko_learning/todo_apps/utils/my_button_widget.dart';
 
 class DialogBox extends StatelessWidget {
   final TextEditingController controller;
-  VoidCallback onSaved;
-  VoidCallback onCancel;
-  DialogBox({
+  final VoidCallback onSaved;
+  final VoidCallback onCancel;
+
+  const DialogBox({
     super.key,
     required this.controller,
     required this.onCancel,
