@@ -31,6 +31,12 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).pop();
   }
 
+  void deleteTask(int index) {
+    setState(() {
+      _toDoList.removeAt(index);
+    });
+  }
+
   void createNewTask() {
     showDialog(
       context: context,
@@ -60,6 +66,7 @@ class _HomePageState extends State<HomePage> {
             taskName: _toDoList[index][0],
             onChanged: (value) => checkBoxChanged(value, index),
             taskCompleted: _toDoList[index][1],
+            deleteFunction: (context) => deleteTask(index),
           );
         },
       ),
