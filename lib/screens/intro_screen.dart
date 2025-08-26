@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitch_koko_e_commerce/screens/home_screen.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({super.key});
@@ -39,10 +40,10 @@ class IntroScreen extends StatelessWidget {
               const SizedBox(height: 48),
 
               GestureDetector(
-                // onTap: () => Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => HomePage()),
-                // ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
