@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mitch_koko_e_commerce/components/bottom_nav_bar.dart';
+import 'package:mitch_koko_e_commerce/screens/cart_screen.dart';
+import 'package:mitch_koko_e_commerce/screens/shop_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  final List<Widget> _screens = [const ShopScreen(), const CartScreen()];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavBar(
         onTabChange: (index) => navigateBottomBar(index),
       ),
+      body: _screens[_selectedIndex],
     );
   }
 }
