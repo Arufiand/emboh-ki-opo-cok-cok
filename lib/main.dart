@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mitch_koko_bloc_learning/counter/counter_page.dart';
+// import 'package:mitch_koko_bloc_learning/counter/counter_page.dart';
 
 void main() {
   runApp(const MyApp());

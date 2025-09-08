@@ -7,11 +7,11 @@ abstract class TodoRepo {
   Future<List<Todo>> getTodos();
 
   //   Create todo
-  Future<List<Todo>> createTodo();
+  Future<List<Todo>> createTodo(Todo newTodo);
 
   // edit todo
-  Future<List<Todo>> editTodo();
+  Future<List<Todo>> editTodo(Todo todo);
 
   // delete todo
-  Future<List<Todo>> deleteTodo();
+  Future<List<Todo>> deleteTodo(Todo todo);
 }
