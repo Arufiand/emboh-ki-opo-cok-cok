@@ -7,7 +7,7 @@ abstract class TodoRepo {
   Future<List<Todo>> getTodos();
 
   //   Create todo
-  Future<List<Todo>> createTodo(Todo newTodo);
+  Future<List<Todo>> addTodo(Todo newTodo);
 
   // edit todo
   Future<List<Todo>> editTodo(Todo todo);

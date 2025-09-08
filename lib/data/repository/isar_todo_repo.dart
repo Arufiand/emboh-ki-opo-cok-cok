@@ -16,7 +16,7 @@ class IsarTodoRepo implements TodoRepo {
   }
 
   @override
-  Future<List<Todo>> createTodo(Todo newTodo) async {
+  Future<List<Todo>> addTodo(Todo newTodo) async {
     final todoIsar = TodoIsar.fromDomain(newTodo);
 
     await db.writeTxn(() => db.todoIsars.put(todoIsar));
