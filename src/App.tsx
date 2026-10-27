@@ -102,7 +102,7 @@ export default function App() {
             Select Regular Pass
           </button>
 
-          <TicketDetail productId={selectedProductId} onAddToCart={addToCart} />
+          <TicketDetail key={selectedProductId} productId={selectedProductId} onAddToCart={addToCart} />
         </section>
 
         {/* Cart & Checkout */}
