@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: lab-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ticketing_db
+    ports:
+      - "5433:5432"  # Using 5433 on the host avoids conflicts with local macOS PostgreSQL
+    volumes:
+      - postgres_lab_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_lab_data:

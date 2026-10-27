@@ -1,7 +1,7 @@
-import express, { type Request, type Response } from 'express';
+import express, {type Request, type Response} from 'express';
 import cookieParser from 'cookie-parser';
 import crypto from 'crypto';
-import { pool, initDatabase } from './db.js';
+import {pool, initDatabase} from './db';
 
 const app = express();
 app.use(express.json());
@@ -16,8 +16,8 @@ interface Product {
 }
 
 const products: Record<string, Product> = {
-    'vip-pass': { id: 'vip-pass', name: 'VIP Concert Pass', price: 200, availableSeats: 1 },
-    'regular-pass': { id: 'regular-pass', name: 'General Admission', price: 80, availableSeats: 50 },
+    'vip-pass': {id: 'vip-pass', name: 'VIP Concert Pass', price: 200, availableSeats: 1},
+    'regular-pass': {id: 'regular-pass', name: 'General Admission', price: 80, availableSeats: 50},
 };
 
 const bookings: Array<{ id: string; productId: string; userId: string; timestamp: number }> = [];
@@ -54,20 +54,20 @@ app.get('/api/products', (req: Request, res: Response) => {
 
 // Route 3: Admin update price
 app.post('/api/admin/update-price', (req: Request, res: Response) => {
-    const { productId, newPrice } = req.body;
+    const {productId, newPrice} = req.body;
     if (!products[productId]) {
-        return res.status(404).json({ error: 'Product not found' });
+        return res.status(404).json({error: 'Product not found'});
     }
     products[productId].price = newPrice;
-    res.json({ message: 'Price updated successfully', product: products[productId] });
+    res.json({message: 'Price updated successfully', product: products[productId]});
 });
 
 // Route 4: Vulnerable Checkout (Trusts client price)
 app.post('/api/checkout', (req: Request, res: Response) => {
-    const { cartItems } = req.body;
+    const {cartItems} = req.body;
 
     if (!cartItems || cartItems.length === 0) {
-        return res.status(400).json({ error: 'Cart is empty' });
+        return res.status(400).json({error: 'Cart is empty'});
     }
 
     const total = cartItems.reduce(
@@ -84,7 +84,7 @@ app.post('/api/checkout', (req: Request, res: Response) => {
 
 // Route 5: Seat Booking via PostgreSQL (Check-Then-Act Race Condition)
 app.post('/api/book-seat', async (req: Request, res: Response) => {
-    const { productId, userId } = req.body;
+    const {productId, userId} = req.body;
 
     try {
         const checkResult = await pool.query(
@@ -93,9 +93,9 @@ app.post('/api/book-seat', async (req: Request, res: Response) => {
         );
 
         const seat = checkResult.rows[0];
-        if (!seat) return res.status(404).json({ error: 'Seat not found' });
+        if (!seat) return res.status(404).json({error: 'Seat not found'});
         if (seat.status !== 'AVAILABLE') {
-            return res.status(400).json({ error: 'Sold out! Seat already reserved.' });
+            return res.status(400).json({error: 'Sold out! Seat already reserved.'});
         }
 
         // Artificial processing delay that opens race condition window
@@ -106,9 +106,9 @@ app.post('/api/book-seat', async (req: Request, res: Response) => {
             ['BOOKED', userId, productId]
         );
 
-        res.json({ message: 'Seat successfully reserved!', bookedBy: userId });
+        res.json({message: 'Seat successfully reserved!', bookedBy: userId});
     } catch (error: any) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({error: error.message});
     }
 });
 
@@ -116,14 +116,14 @@ app.post('/api/book-seat', async (req: Request, res: Response) => {
 app.get('/api/user/profile', (req: Request, res: Response) => {
     const session = req.cookies['session_token'];
     if (!session) {
-        return res.status(401).json({ error: 'Unauthorized: Missing session cookie' });
+        return res.status(401).json({error: 'Unauthorized: Missing session cookie'});
     }
-    res.json({ username: 'engineer_one', role: 'attendee' });
+    res.json({username: 'engineer_one', role: 'attendee'});
 });
 
 // Healthcheck
 app.get('/api/health', (req: Request, res: Response) => {
-    res.json({ status: 'healthy', uptime: process.uptime() });
+    res.json({status: 'healthy', uptime: process.uptime()});
 });
 
 // Initialize DB and start server
