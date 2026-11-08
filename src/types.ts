@@ -11,6 +11,7 @@ export interface ArticleContent extends RawArticle {
   author?: string;
   location?: string;
   content?: string;
+  body?: string;
   crawledAt?: string;
 }
 
