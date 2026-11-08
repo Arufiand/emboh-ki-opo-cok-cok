@@ -1,23 +1,35 @@
-import { NormalizedSignal, SignalIngestor } from "../types/ingestor.js";
 import { XMLParser } from "fast-xml-parser";
+import type { SignalIngestor, NormalizedSignal } from "../types/ingestor.js";
 import { ExtractorService } from "../services/extractor.service.js";
+import { PATHOGEN_LOOKUPS } from "../config/lookups.js";
 
 export class GoogleNewsIngestor implements SignalIngestor {
-  readonly name: string = "Google News RSS";
+  readonly name = "Google News RSS";
   private readonly parser = new XMLParser({ ignoreAttributes: false });
 
+  // Dynamically assemble the query from your pathogen keywords
+  private buildQuery(): string {
+    // 1. Flatten all keywords from all pathogens
+    // e.g. ['dbd', 'dengue', 'flu burung', 'polio', 'rabies', 'mpox']
+    const virusTerms = PATHOGEN_LOOKUPS.flatMap((p) =>
+      p.keywords.map((kw) => (kw.includes(" ") ? `"${kw}"` : kw)),
+    ).join(" OR ");
+
+    // 2. Combine with alert context terms and a 7-day rolling window
+    // e.g. "(kasus OR wabah OR dinkes) AND (dbd OR dengue OR "flu burung" ...) when:7d"
+    return `(kasus OR wabah OR KLB OR dinkes) AND (${virusTerms}) when:7d`;
+  }
+
   async collect(): Promise<NormalizedSignal[]> {
-    console.log(`[${this.name}] Fetching regional feeds...`);
+    const rawQuery = this.buildQuery();
+    console.log(`[${this.name}] Dynamically generated query: ${rawQuery}`);
 
-    const query = encodeURIComponent(
-      'kasus OR wabah dbd OR "flu burung" OR polio OR rabies OR mpox when:7d',
-    );
-
-    const feedUrl = `https://news.google.com/rss/search?q=${query}&hl=id&gl=ID&ceid=ID:id`;
+    const encodedQuery = encodeURIComponent(rawQuery);
+    const feedUrl = `https://news.google.com/rss/search?q=${encodedQuery}&hl=id&gl=ID&ceid=ID:id`;
 
     const res = await fetch(feedUrl);
     if (!res.ok) {
-      throw new Error(`Failed to fetch rss feeds for ${query}`);
+      throw new Error(`Failed to fetch RSS: ${res.statusText}`);
     }
 
     const xml = await res.text();
@@ -40,6 +52,7 @@ export class GoogleNewsIngestor implements SignalIngestor {
         results.push(signal);
       }
     }
+
     return results;
   }
 }

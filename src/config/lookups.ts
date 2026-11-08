@@ -186,6 +186,21 @@ export const INDONESIA_PROVINCES: ProvinceLookup[] = [
     name: "Aceh",
     keywords: ["aceh", "banda aceh", "lhokseumawe", "aceh besar", "pidie"],
   },
+  {
+    code: "ID-KI",
+    name: "Kalimantan Timur",
+    keywords: [
+      "kalimantan timur",
+      "kaltim",
+      "samarinda",
+      "balikpapan",
+      "kukar",
+      "kutai kartanegara",
+      "bontang",
+      "ikn",
+      "nusantara",
+    ],
+  },
 ];
 
 export const PATHOGEN_LOOKUPS: PathogenLookup[] = [
