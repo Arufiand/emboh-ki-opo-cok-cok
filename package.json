@@ -43,6 +43,7 @@
     ]
   },
   "dependencies": {
+    "dotenv": "^18.0.9",
     "fast-xml-parser": "^5.12.0"
   }
 }

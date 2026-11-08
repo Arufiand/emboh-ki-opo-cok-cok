@@ -1,10 +1,19 @@
-export interface ScraperConfig {
+export interface IngestorConfig {
   sourceName: string;
   listingUrl: string;
 }
 
-export const antaraConfig: ScraperConfig = {
-  sourceName: process.env.A_SOURCE_NAME ?? "antaranews.com",
-  listingUrl:
-    process.env.A_LISTING_URL ?? "https://www.antaranews.com/kesehatan",
+function getEnv(key: string): string {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(
+      `[Config Error] Missing required environment variable: ${key}`,
+    );
+  }
+  return value;
+}
+
+export const promedConfig: IngestorConfig = {
+  sourceName: getEnv("PROMED_SOURCE_NAME"),
+  listingUrl: getEnv("PROMED_BASE_URL"),
 };
