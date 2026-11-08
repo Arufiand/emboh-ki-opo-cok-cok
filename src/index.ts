@@ -1,27 +1,32 @@
-import { PlaywrightBrowserService } from "./services/browser.service.js";
-import { CrawlerService } from "./services/crawler.service.js";
-import { AntaraHealthScraper } from "./scrapers/antara.scraper.js";
-import { antaraConfig } from "./config/env.js";
+import { GoogleNewsIngestor } from "./ingestors/google-news.ingestor.js";
 
-const browserService = new PlaywrightBrowserService();
-const crawler = new CrawlerService(browserService);
-
-async function main(): Promise<void> {
+async function bootstrap() {
   try {
-    await browserService.init();
+    const ingestor = new GoogleNewsIngestor();
+    const signals = await ingestor.collect();
 
-    const antaraScraper = new AntaraHealthScraper(antaraConfig);
+    console.log(`\n=== Ingestion Complete ===`);
+    console.log(
+      `Captured ${signals.length} verified Indonesian outbreak signals:\n`,
+    );
 
-    const articles = await crawler.run(antaraScraper, 3);
-
-    console.log("\n--- Extraction Complete ---");
-    console.log(`Successfully extracted ${articles.length} articles:\n`);
-    console.dir(articles, { depth: null });
+    signals.slice(0, 5).forEach((item, index) => {
+      console.log(
+        `[${index + 1}] ${item.pathogen.name} (${item.pathogen.family})`,
+      );
+      console.log(
+        `    Location : ${item.provinceName} ${item.regencyCity ? `(${item.regencyCity})` : ""} [${item.provinceCode}]`,
+      );
+      console.log(`    Severity : ${item.severity} | KLB: ${item.isKlb}`);
+      console.log(
+        `    Symptoms : ${item.symptoms.length ? item.symptoms.join(", ") : "None extracted"}`,
+      );
+      console.log(`    Headline : ${item.headline}`);
+      console.log(`    Source   : ${item.sourceUrl}\n`);
+    });
   } catch (error) {
-    console.error(`Fatal error while trying to extract ${error}`);
-  } finally {
-    await browserService.close();
+    console.log(`Bootstrap Error: ${error}`);
   }
 }
 
-main();
+bootstrap();

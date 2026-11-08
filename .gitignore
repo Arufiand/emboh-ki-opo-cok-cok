@@ -51,3 +51,7 @@ lerna-debug.log*
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+__MACOSX/
+playwright-report/
+test-results/
