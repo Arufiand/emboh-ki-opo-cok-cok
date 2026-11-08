@@ -155,6 +155,37 @@ export const INDONESIA_PROVINCES: ProvinceLookup[] = [
       "nusantara",
     ],
   },
+  // Add NTB, NTT, Aceh, etc. to INDONESIA_PROVINCES in src/config/lookups.ts
+  {
+    code: "ID-NB",
+    name: "Nusa Tenggara Barat",
+    keywords: [
+      "nusa tenggara barat",
+      "ntb",
+      "mataram",
+      "lombok",
+      "sumbawa",
+      "bima",
+      "suarantb",
+    ],
+  },
+  {
+    code: "ID-NT",
+    name: "Nusa Tenggara Timur",
+    keywords: [
+      "nusa tenggara timur",
+      "ntt",
+      "kupang",
+      "flores",
+      "sumba",
+      "labuan bajo",
+    ],
+  },
+  {
+    code: "ID-AC",
+    name: "Aceh",
+    keywords: ["aceh", "banda aceh", "lhokseumawe", "aceh besar", "pidie"],
+  },
 ];
 
 export const PATHOGEN_LOOKUPS: PathogenLookup[] = [
