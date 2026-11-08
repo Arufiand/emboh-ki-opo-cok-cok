@@ -1,5 +1,5 @@
 import { IBrowserService } from "./browser.service.js";
-import { ArticleContent, SiteScrapper } from "../types.js";
+import { ArticleContent, SiteScrapper } from "../types/types.js";
 
 export class CrawlerService {
   constructor(private readonly browserService: IBrowserService) {}

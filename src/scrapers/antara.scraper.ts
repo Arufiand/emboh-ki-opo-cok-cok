@@ -1,4 +1,4 @@
-import { ArticleContent, RawArticle, SiteScrapper } from "../types.js";
+import { ArticleContent, RawArticle, SiteScrapper } from "../types/types.js";
 import { ScraperConfig } from "../config/env.js";
 import { Page } from "playwright";
 
