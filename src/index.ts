@@ -3,10 +3,14 @@ import { GoogleNewsIngestor } from "./ingestors/google-news.ingestor.js";
 import { ProMedIngestor } from "./ingestors/promed.ingestor.js";
 import { NewsDataIngestor } from "./ingestors/newsdata.ingestor.js";
 import type { SignalIngestor, NormalizedSignal } from "./types/ingestor.js";
+import { DeduplicationService } from "./services/dedup.service.js";
 
 async function bootstrap() {
   const browserService = new PlaywrightBrowserService();
+  const deduplicationService = new DeduplicationService();
+
   await browserService.init();
+  await deduplicationService.connect();
 
   // Register all 3 gatherers
   const ingestors: SignalIngestor[] = [
@@ -50,8 +54,23 @@ async function bootstrap() {
     );
 
     console.log("Breakdown by Source:", bySource);
+
+    const { newSignals, duplicateCount } =
+      await deduplicationService.filterNewSignals(aggregatedSignals);
+
+    console.log(`====================================`);
+    console.log(`New Unseen Signals : ${newSignals.length}`);
+    console.log(`Duplicates Dropped : ${duplicateCount}`);
+    console.log(`====================================\n`);
+
+    if (newSignals.length > 0) {
+      console.log(`Ready to save ${newSignals.length} items to database.`);
+    } else {
+      console.log(`No new events to write`);
+    }
   } finally {
     await browserService.close();
+    await deduplicationService.disconnect();
     console.log("Browser service closed. Data gathering complete.");
   }
 }

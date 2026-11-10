@@ -27,3 +27,13 @@ export const newsDataConfig: NewsDataConfig = {
   listingUrl: getEnv("NEWS_BASE_URL"),
   sourceName: getEnv("NEWS_SOURCE_NAME"),
 };
+
+export interface RedisConfig {
+  host: string;
+  port: number;
+}
+
+export const redisConfig: RedisConfig = {
+  host: getEnv("REDIS_HOST"),
+  port: Number(getEnv("REDIS_PORT")),
+};
