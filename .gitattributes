@@ -1,0 +1,25 @@
+# Default: perlakukan semua file teks otomatis, normalisasi line ending ke LF saat commit
+* text=auto eol=lf
+
+# Explicit teks file: paksa LF
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# File biner: jangan sentuh line ending sama sekali
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# Khusus skrip Windows jika ada
+*.bat text eol=crlf
+*.cmd text eol=crlf
