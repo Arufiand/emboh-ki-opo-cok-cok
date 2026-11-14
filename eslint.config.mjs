@@ -12,6 +12,7 @@ export default tseslint.config(
       "migrations/snapshots/**",
       "src/prisma/**",
       "**/contract.d.ts",
+      "docs/**",
     ],
   },
 

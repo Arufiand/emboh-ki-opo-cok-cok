@@ -57,3 +57,5 @@ playwright-report/
 test-results/
 
 /redis-data
+
+docs/mermaid.md
