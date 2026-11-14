@@ -58,4 +58,4 @@ test-results/
 
 /redis-data
 
-docs/mermaid.md
+/docs/*.*
