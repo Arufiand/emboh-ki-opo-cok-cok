@@ -4,6 +4,7 @@ import { ProMedIngestor } from "./ingestors/promed.ingestor.js";
 import { NewsDataIngestor } from "./ingestors/newsdata.ingestor.js";
 import type { SignalIngestor, NormalizedSignal } from "./types/ingestor.js";
 import { DeduplicationService } from "./services/dedup.service.js";
+import { persistQueue } from "./infra/queues.js";
 
 async function bootstrap() {
   const browserService = new PlaywrightBrowserService();
@@ -12,7 +13,6 @@ async function bootstrap() {
   await browserService.init();
   await deduplicationService.connect();
 
-  // Register all 3 gatherers
   const ingestors: SignalIngestor[] = [
     new GoogleNewsIngestor(),
     new ProMedIngestor(browserService),
@@ -44,7 +44,6 @@ async function bootstrap() {
     );
     console.log("====================================\n");
 
-    // Grouping by source for quick verification
     const bySource = aggregatedSignals.reduce(
       (acc, s) => {
         acc[s.source] = (acc[s.source] || 0) + 1;
@@ -64,14 +63,22 @@ async function bootstrap() {
     console.log(`====================================\n`);
 
     if (newSignals.length > 0) {
-      console.log(`Ready to save ${newSignals.length} items to database.`);
+      await persistQueue.addBulk(
+        newSignals.map((signal) => ({
+          name: "upsert-signal",
+          data: signal,
+          opts: { jobId: signal.id }, // Prevents duplicate jobs in BullMQ
+        })),
+      );
+      console.log(`Enqueued ${newSignals.length} signals to persist-queue.`);
     } else {
-      console.log(`No new events to write`);
+      console.log(`No new events to enqueue.`);
     }
   } finally {
     await browserService.close();
     await deduplicationService.disconnect();
-    console.log("Browser service closed. Data gathering complete.");
+    await persistQueue.close();
+    console.log("Browser, Redis, and Queue connections closed.");
   }
 }
 

@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 export interface IngestorConfig {
   sourceName: string;
   listingUrl: string;
