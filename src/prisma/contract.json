@@ -1,0 +1,539 @@
+{
+  "schemaVersion": "1",
+  "targetFamily": "sql",
+  "target": "postgres",
+  "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
+  "roots": {
+    "outbreak_signals": {
+      "model": "OutbreakSignal",
+      "namespace": "public"
+    },
+    "province_master": {
+      "model": "ProvinceMaster",
+      "namespace": "public"
+    }
+  },
+  "domain": {
+    "namespaces": {
+      "public": {
+        "enum": {
+          "SeverityGrade": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "LOW",
+                "value": "LOW"
+              },
+              {
+                "name": "MEDIUM",
+                "value": "MEDIUM"
+              },
+              {
+                "name": "HIGH",
+                "value": "HIGH"
+              },
+              {
+                "name": "CRITICAL_KLB",
+                "value": "CRITICAL_KLB"
+              }
+            ]
+          },
+          "SignalSource": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "GOOGLE_NEWS",
+                "value": "GOOGLE_NEWS"
+              },
+              {
+                "name": "PROMED",
+                "value": "PROMED"
+              },
+              {
+                "name": "NEWSDATA",
+                "value": "NEWSDATA"
+              }
+            ]
+          }
+        },
+        "models": {
+          "OutbreakSignal": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "headline": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "isKlb": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "pathogenFam": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "pathogenName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "provinceCode": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "provinceName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "publishedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "regencyCity": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "severity": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "SeverityGrade",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "snippet": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "source": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "SignalSource",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "sourceUrl": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "symptoms": {
+                "many": {
+                  "elementNullable": false
+                },
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "headline": {
+                  "column": "headline"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "isKlb": {
+                  "column": "isKlb"
+                },
+                "pathogenFam": {
+                  "column": "pathogenFam"
+                },
+                "pathogenName": {
+                  "column": "pathogenName"
+                },
+                "provinceCode": {
+                  "column": "provinceCode"
+                },
+                "provinceName": {
+                  "column": "provinceName"
+                },
+                "publishedAt": {
+                  "column": "publishedAt"
+                },
+                "regencyCity": {
+                  "column": "regencyCity"
+                },
+                "severity": {
+                  "column": "severity"
+                },
+                "snippet": {
+                  "column": "snippet"
+                },
+                "source": {
+                  "column": "source"
+                },
+                "sourceUrl": {
+                  "column": "sourceUrl"
+                },
+                "symptoms": {
+                  "column": "symptoms"
+                }
+              },
+              "namespaceId": "public",
+              "table": "outbreak_signals"
+            }
+          },
+          "ProvinceMaster": {
+            "fields": {
+              "code": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "latitude": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/float8@1",
+                  "kind": "scalar"
+                }
+              },
+              "longitude": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/float8@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "code": {
+                  "column": "code"
+                },
+                "latitude": {
+                  "column": "latitude"
+                },
+                "longitude": {
+                  "column": "longitude"
+                },
+                "name": {
+                  "column": "name"
+                }
+              },
+              "namespaceId": "public",
+              "table": "province_master"
+            }
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "namespaces": {
+      "public": {
+        "entries": {
+          "table": {
+            "outbreak_signals": {
+              "checks": [
+                {
+                  "expression": "\"severity\" IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL_KLB')",
+                  "name": "outbreak_signals_severity_check_c283e200",
+                  "prefix": "outbreak_signals_severity_check"
+                },
+                {
+                  "expression": "\"source\" IN ('GOOGLE_NEWS', 'PROMED', 'NEWSDATA')",
+                  "name": "outbreak_signals_source_check_588d4155",
+                  "prefix": "outbreak_signals_source_check"
+                },
+                {
+                  "expression": "array_position(\"symptoms\", NULL) IS NULL",
+                  "name": "outbreak_signals_symptoms_elem_not_null_730b5cb3",
+                  "prefix": "outbreak_signals_symptoms_elem_not_null"
+                }
+              ],
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "headline": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "isKlb": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
+                  "nullable": false
+                },
+                "pathogenFam": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "pathogenName": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "provinceCode": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "provinceName": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "publishedAt": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "regencyCity": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "severity": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "SeverityGrade",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "snippet": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "source": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "SignalSource",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "sourceUrl": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "symptoms": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "many": {
+                    "elementNullable": false
+                  },
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [
+                {
+                  "columns": ["pathogenName"],
+                  "name": "outbreak_signals_pathogenName_idx_19c43c5a",
+                  "prefix": "outbreak_signals_pathogenName_idx",
+                  "unique": false
+                },
+                {
+                  "columns": ["provinceCode"],
+                  "name": "outbreak_signals_provinceCode_idx_7e3d0f06",
+                  "prefix": "outbreak_signals_provinceCode_idx",
+                  "unique": false
+                },
+                {
+                  "columns": ["publishedAt"],
+                  "name": "outbreak_signals_publishedAt_idx_36121b91",
+                  "prefix": "outbreak_signals_publishedAt_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": ["id"]
+              },
+              "uniques": [
+                {
+                  "columns": ["sourceUrl"]
+                }
+              ]
+            },
+            "province_master": {
+              "columns": {
+                "code": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "latitude": {
+                  "codecId": "pg/float8@1",
+                  "dataType": "pg/float8",
+                  "nullable": false
+                },
+                "longitude": {
+                  "codecId": "pg/float8@1",
+                  "dataType": "pg/float8",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": ["code"]
+              },
+              "uniques": []
+            }
+          },
+          "valueSet": {
+            "SeverityGrade": {
+              "kind": "valueSet",
+              "values": ["LOW", "MEDIUM", "HIGH", "CRITICAL_KLB"]
+            },
+            "SignalSource": {
+              "kind": "valueSet",
+              "values": ["GOOGLE_NEWS", "PROMED", "NEWSDATA"]
+            }
+          }
+        },
+        "id": "public",
+        "kind": "postgres-schema"
+      }
+    },
+    "storageHash": "e4759909c8b39e554934948ec83402cbbb12a137ef0e3e970889ef474fc08635"
+  },
+  "capabilities": {
+    "postgres": {
+      "distinctOn": true,
+      "forKeyShare": true,
+      "forNoKeyUpdate": true,
+      "jsonAgg": true,
+      "lateral": true,
+      "limit": true,
+      "orderBy": true,
+      "returning": true
+    },
+    "sql": {
+      "checkConstraint": true,
+      "defaultInInsert": true,
+      "enums": true,
+      "forShare": true,
+      "forUpdate": true,
+      "insertOnConflictSkip": true,
+      "insertOnConflictTarget": true,
+      "insertOnConflictWithoutTarget": true,
+      "lateral": true,
+      "lockNowait": true,
+      "lockOf": true,
+      "lockSkipLocked": true,
+      "returning": true,
+      "scalarList": true
+    }
+  },
+  "extensions": {},
+  "meta": {},
+  "_generated": {
+    "warning": "⚠️  GENERATED FILE - DO NOT EDIT",
+    "message": "This file is automatically generated by \"prisma contract emit\".",
+    "regenerate": "To regenerate, run: prisma contract emit"
+  }
+}

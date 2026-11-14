@@ -1,0 +1,46 @@
+// use prisma-8
+
+enum SignalSource {
+  GOOGLE_NEWS
+  PROMED
+  NEWSDATA
+}
+
+enum SeverityGrade {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL_KLB
+}
+
+model OutbreakSignal {
+  id String @id
+  source SignalSource
+  sourceUrl String @unique
+  headline String
+  snippet String?
+  publishedAt DateTime
+  provinceCode String
+  provinceName String
+  regencyCity String?
+  pathogenName String
+  pathogenFam String
+  symptoms String[]
+  severity SeverityGrade
+  isKlb Boolean @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([provinceCode])
+  @@index([pathogenName])
+  @@index([publishedAt])
+  @@map("outbreak_signals")
+}
+
+model ProvinceMaster {
+  code String @id
+  name String
+  latitude Float
+  longitude Float
+
+  @@map("province_master")
+}

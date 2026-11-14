@@ -5,7 +5,14 @@ import eslintConfigPrettier from "eslint-config-prettier";
 export default tseslint.config(
   // 1. Global Ignores (wajib di objek tersendiri tanpa keys lain)
   {
-    ignores: ["dist/**", "node_modules/**", "coverage/**"],
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "coverage/**",
+      "migrations/snapshots/**",
+      "src/prisma/**",
+      "**/contract.d.ts",
+    ],
   },
 
   // 2. Base Recommended Configs
